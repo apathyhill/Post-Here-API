@@ -11,11 +11,8 @@ def create_app():
     def root():
         return render_template("home.html")
 
-    @app.route("/post_to_reddit", methods=["POST"])
-    def predict_subreddit():
-        if request.method == "POST":
-            title = request.values["title"]
-            subreddit = request.values["subreddit"]
-            return redirect("https://www.reddit.com/r/{}/submit?title={}".format(subreddit, quote_plus(title)))
+    @app.route("/post_to_reddit/<subreddit>/<title>")
+    def predict_subreddit(subreddit, title):
+        return redirect("https://www.reddit.com/r/{}/submit?title={}".format(subreddit, title))
 
     return app

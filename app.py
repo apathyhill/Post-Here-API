@@ -1,42 +1,26 @@
-import praw
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from decouple import config
+from flask import Flask, render_template, request
+from praw import Reddit
+from urllib.parse import quote_plus
 
-APP = Flask(__name__)
-APP.config["SQLALCHEMY_DATABASE_URI"] = config("DATABASE_URL")
-
-DB = SQLAlchemy(APP)
-
-class RedditPost(DB.Model):
-    id = DB.Column(DB.String(10), primary_key=True)
-    text = DB.Column(DB.Text(), nullable=False)
-    subreddit = DB.Column(DB.Text(), nullable=False)
-
-class SubReddit(DB.Model):
-    id = DB.Column(DB.Text(), primary_key=True)
-    name = DB.Column(DB.Text(), nullable=False)
-
-DB.drop_all()
-DB.create_all()
-
-REDDIT = praw.Reddit(client_id=config("CLIENT_ID"),
+REDDIT = Reddit(client_id=config("CLIENT_ID"),
                      client_secret=config("CLIENT_SECRET"),
                      user_agent=config("USER_AGENT"))
-TOP_LIMIT=50
 
-subreddits = REDDIT.subreddits.popular(limit=TOP_LIMIT)
-for subreddit in subreddits.__iter__():
-    print(subreddit.display_name)
-    db_subreddit = SubReddit(id=subreddit.id, name=subreddit.display_name)
-    DB.session.add(db_subreddit)
-    hot_posts = subreddit.hot()
-    for post in hot_posts.__iter__():
-        db_post = RedditPost(id=post.id, text=post.title, subreddit=subreddit.id)
-        DB.session.add(db_post)
+def create_app():
+    app = Flask(__name__)
+
+    @app.route("/")
+    def root():
+        return render_template("home.html")
 
 
-
-DB.session.commit()
-
-
+    @app.route("/predict", methods=["POST"])
+    def predict_subreddit():
+        if request.method == "POST":
+            title = request.values["title"]
+            # predictions = process_title(title)
+            predictions = [{"name": "me_irl", "confidence": 100 }]
+            return render_template("predictions.html", predictions=predictions, title=title, title_url=quote_plus(title))
+        return "ERROR"
+    return app

@@ -1,1 +1,1 @@
-web: gunicorn __init__.py -t 120
+web: gunicorn __init__:application -t 120

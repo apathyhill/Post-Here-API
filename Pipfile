@@ -9,7 +9,6 @@ verify_ssl = true
 flask = "*"
 praw = "*"
 python-decouple = "*"
-pyhton-dotenv = "*"
 python-dotenv = "*"
 
 [requires]

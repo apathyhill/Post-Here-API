@@ -1,1 +1,1 @@
-web: gunicorn TWITOFF:APP -t 120
+web: gunicorn __init__.py -t 120

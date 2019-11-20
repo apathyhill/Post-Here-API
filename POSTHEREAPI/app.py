@@ -3,7 +3,9 @@ from flask import Flask, render_template, request, redirect
 from praw import Reddit
 from urllib.parse import quote_plus
 from .db_model import DB, User
+from sqlalchemy import exists
 import json
+
 
 def create_app():
     app = Flask(__name__)

@@ -18,32 +18,32 @@ def create_app():
     @app.route("/app_login_user_name", methods=["POST"])
     def app_login_user_name():
         if request.method == "POST":
-            print(request.values)
+            print(request.data)
 
     @app.route("/app_login_password", methods=["POST"])
     def app_login_password():
         if request.method == "POST":
-            print(request.values)
+            print(request.data)
 
     @app.route("/article_text", methods=["POST"])  
     def article_text():
         if request.method == "POST":
-            print(request.values)
+            print(request.data)
         
     @app.route("/app_login_password", methods=["POST"])
     def title_of_article():
         if request.method == "POST":
-            print(request.values)
+            print(request.data)
 
     @app.route("/recommended_subreddits", methods=["POST"])
     def recommended_subreddits():
         if request.method == "POST":
-            print(request.values)
+            print(request.data)
 
     @app.route("/user_choice_subreddit", methods=["POST"]) 
     def user_choice_subreddit():
         if request.method == "POST":
-            print(request.values)
+            print(request.data)
         
 
     return app

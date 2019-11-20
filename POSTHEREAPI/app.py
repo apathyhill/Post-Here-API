@@ -15,9 +15,10 @@ def create_app():
 
     DB.init_app(app)
 
-    @app.route("/")
-    def root():
-        return "Test Page"
+    @app.route("/reset")
+    def reset():
+        DB.drop_all()
+        DB.create_all()
 
     @app.route("/post_to_reddit/<subreddit>/<title>/<article>")
     def post_to_reddit(subreddit, article, title):

@@ -31,6 +31,8 @@ def create_app():
     def article_text():
         if request.method == "POST":
             print(request.data)
+        if request.method == "GET":
+            return {"text": "This is a test."}
         return "test"
         
     @app.route("/app_login_password", methods=["POST"])

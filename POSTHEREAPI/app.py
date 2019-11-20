@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect
 from praw import Reddit
 from urllib.parse import quote_plus
 from .db_model import DB, User
+import json
 
 def create_app():
     app = Flask(__name__)
@@ -23,7 +24,8 @@ def create_app():
     @app.route("/register", methods=["POST"])
     def register():
         if request.method == "POST":
-            data = request.data["credentials"]
+            data = json.loads(request.data)
+            data = ["credentials"]
             if DB.session.query(exists().where(User.username==data["username"])).scalar():
                 return "User already exists!"
             else:

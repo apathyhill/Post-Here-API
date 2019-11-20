@@ -12,8 +12,6 @@ import pickle
 def create_app():
     app = Flask(__name__)
 
-    filename = 'nlp_model.plk'
-    model_pkl = open(filename, 'rb')
     model = pickle.load(urlopen("https://drive.google.com/uc?export=download&confirm=bkOP&id=1Qkh16xR5CDnjZYHrAaQ7_VHmF3QhF9rQ", "rb"))
 
     app.config["SQLALCHEMY_DATABASE_URI"] = config("DATABASE_URL")

@@ -19,6 +19,7 @@ def create_app():
     def reset():
         DB.drop_all()
         DB.create_all()
+        return "reset."
 
     @app.route("/post_to_reddit/<subreddit>/<title>/<article>")
     def post_to_reddit(subreddit, article, title):

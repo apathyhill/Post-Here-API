@@ -27,7 +27,6 @@ def create_app():
     def register():
         if request.method == "POST":
             data = json.loads(request.data)
-            data = ["credentials"]
             if DB.session.query(exists().where(User.username==data["username"])).scalar():
                 return "User already exists!"
             else:

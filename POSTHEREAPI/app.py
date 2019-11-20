@@ -21,6 +21,7 @@ def create_app():
         DB.create_all()
         return "reset."
 
+
     @app.route("/post_to_reddit/<subreddit>/<title>/<article>")
     def post_to_reddit(subreddit, article, title):
         return redirect("https://www.reddit.com/r/{}/submit?text={}&title={}".format(subreddit, (article), quote_plus(title)))
@@ -35,6 +36,8 @@ def create_app():
                 db_user = User(username=data["username"], password=data["password"])
                 DB.session.add(db_user)
                 DB.session.commit()
+                return "Made a user!"
+        return "ERROR"
 
 
     @app.route("/app_login_user_name", methods=["POST"])

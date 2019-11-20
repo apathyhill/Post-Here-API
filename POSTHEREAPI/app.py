@@ -26,10 +26,11 @@ def create_app():
     def post_to_reddit():
         if request.method == "POST":
             data = json.loads(request.data) # {"article": "", "title": "", "subreddit": ""}
-
-            return redirect("https://www.reddit.com/r/{}/submit?text={}&title={}".format(data["subreddit"], 
+            new_url = "https://www.reddit.com/r/{}/submit?text={}&title={}".format(data["subreddit"], 
                                                                                          quote_plus(data["article"]), 
-                                                                                         quote_plus(data["title"])))
+                                                                                      quote_plus(data["title"]))
+            print(new_url)
+            return redirect(new_url)
 
     @app.route("/register", methods=["POST"])
     def register():

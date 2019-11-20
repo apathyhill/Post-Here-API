@@ -2,13 +2,19 @@ from decouple import config
 from flask import Flask, render_template, request, redirect
 from praw import Reddit
 from urllib.parse import quote_plus
+from urllib.request import urlopen
 from .db_model import DB, User
 from sqlalchemy import exists
 import json
+import pickle
 
 
 def create_app():
     app = Flask(__name__)
+
+    filename = 'nlp_model.plk'
+    model_pkl = open(filename, 'rb')
+    model = pickle.load(urlopen("https://drive.google.com/uc?export=download&confirm=bkOP&id=1Qkh16xR5CDnjZYHrAaQ7_VHmF3QhF9rQ", "rb"))
 
     app.config["SQLALCHEMY_DATABASE_URI"] = config("DATABASE_URL")
     print(config("DATABASE_URL"))
@@ -55,44 +61,15 @@ def create_app():
                     return "Logged in as {}!".format(db_user.username)
         return "Could not login..."
 
+    @app.route("/predict", methods=["POST"])
+    def login():
+        if request.method == "POST":
+            data = json.loads(request.data)
+            pred = model.predict(data["article"])[0]
+            print(pred)
+            return "test"
+        return "ERROR"
 
-    @app.route("/app_login_user_name", methods=["POST"])
-    def app_login_user_name():
-        if request.method == "POST":
-            print(request.data)
-        return "test"
-
-    @app.route("/app_login_password", methods=["POST"])
-    def app_login_password():
-        if request.method == "POST":
-            print(request.data)
-        return "test"
-
-    @app.route("/article_text", methods=["POST", "GET"])  
-    def article_text():
-        if request.method == "POST":
-            print(request.data)
-        if request.method == "GET":
-            return {"text": "This is a test."}
-        return "test"
-        
-    @app.route("/app_login_password", methods=["POST"])
-    def title_of_article():
-        if request.method == "POST":
-            print(request.data)
-        return "test"
-
-    @app.route("/recommended_subreddits", methods=["POST"])
-    def recommended_subreddits():
-        if request.method == "POST":
-            print(request.data)
-        return "test"
-
-    @app.route("/user_choice_subreddit", methods=["POST"]) 
-    def user_choice_subreddit():
-        if request.method == "POST":
-            print(request.data)
-        return "test"
         
 
     return app

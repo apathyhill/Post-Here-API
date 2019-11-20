@@ -20,7 +20,7 @@ def create_app():
     def post_to_reddit(subreddit, article, title):
         return redirect("https://www.reddit.com/r/{}/submit?text={}&title={}".format(subreddit, (article), quote_plus(title)))
 
-    @app.route("/register", methods=methods=["POST"])
+    @app.route("/register", methods=["POST"])
     def register():
         if request.method == "POST":
             data = request.data["credentials"]

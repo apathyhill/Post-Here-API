@@ -22,9 +22,9 @@ def create_app():
         return "reset."
 
 
-    @app.route("/post_to_reddit", methods=["PUT"])
+    @app.route("/post_to_reddit", methods=["POST"])
     def post_to_reddit():
-        if request.method == "PUT":
+        if request.method == "POST":
             data = json.loads(request.data) # {"article": "", "title": "", "subreddit": ""}
 
             return redirect("https://www.reddit.com/r/{}/submit?text={}&title={}".format(data["subreddit"], 

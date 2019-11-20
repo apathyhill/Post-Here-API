@@ -45,8 +45,8 @@ def create_app():
             data = json.loads(request.data)
             if DB.session.query(exists().where(User.username==data["username"])).scalar():
                 db_user = User.query.filter(User.screen_name == data["username"]).one()
-                if db_user.password == data["password"]
-                return "Logged in as {}!".format(db_user.username)
+                if db_user.password == data["password"]:
+                    return "Logged in as {}!".format(db_user.username)
         return "Could not login..."
 
 

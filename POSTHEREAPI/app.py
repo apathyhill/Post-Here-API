@@ -27,7 +27,7 @@ def create_app():
             print(request.data)
         return "test"
 
-    @app.route("/article_text", methods=["POST"])  
+    @app.route("/article_text", methods=["POST", "GET"])  
     def article_text():
         if request.method == "POST":
             print(request.data)

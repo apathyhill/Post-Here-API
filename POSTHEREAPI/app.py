@@ -2,10 +2,15 @@ from decouple import config
 from flask import Flask, render_template, request, redirect
 from praw import Reddit
 from urllib.parse import quote_plus
-
+from .db_model import DB, User
 
 def create_app():
     app = Flask(__name__)
+
+    app.config["SQLALCHEMY_DATABASE_URI"] = config("DATABASE_URL")
+
+    DB.init_app(app)
+    DB.create_all()
 
     @app.route("/")
     def root():
@@ -14,6 +19,18 @@ def create_app():
     @app.route("/post_to_reddit/<subreddit>/<title>/<article>")
     def post_to_reddit(subreddit, article, title):
         return redirect("https://www.reddit.com/r/{}/submit?text={}&title={}".format(subreddit, (article), quote_plus(title)))
+
+    @app.route("/register", methods=methods=["POST"])
+    def register():
+        if request.method == "POST":
+            data = request.data["credentials"]
+            if DB.session.query(exists().where(User.username==data["username"])).scalar():
+                return "User already exists!"
+            else:
+                db_user = User(username=data["username"], password=data["password"])
+                DB.session.add(db_user)
+                DB.session.commit()
+
 
     @app.route("/app_login_user_name", methods=["POST"])
     def app_login_user_name():

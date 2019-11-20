@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "940724587fe00d83e1ae8380fb97fb70a5bd5d3b3305f852cf9a21245be68f90"
+            "sha256": "8fd92ca29b8d75a57edc0ae4a55afb026a991223552fc5d8062b858c17a10a3c"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -44,6 +44,14 @@
             ],
             "index": "pypi",
             "version": "==1.1.1"
+        },
+        "flask-sqlalchemy": {
+            "hashes": [
+                "sha256:0078d8663330dc05a74bc72b3b6ddc441b9a744e2f56fe60af1a5bfc81334327",
+                "sha256:6974785d913666587949f7c2946f7001e4fa2cb2d19f4e69ead02e4b8f50b33d"
+            ],
+            "index": "pypi",
+            "version": "==2.4.1"
         },
         "gunicorn": {
             "hashes": [
@@ -150,6 +158,12 @@
                 "sha256:30f610279e8b2578cab6db20741130331735c781b56053c59c4076da27f06b66"
             ],
             "version": "==1.13.0"
+        },
+        "sqlalchemy": {
+            "hashes": [
+                "sha256:afa5541e9dea8ad0014251bc9d56171ca3d8b130c9627c6cb3681cff30be3f8a"
+            ],
+            "version": "==1.3.11"
         },
         "update-checker": {
             "hashes": [

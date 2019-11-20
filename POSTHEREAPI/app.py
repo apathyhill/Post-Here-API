@@ -39,6 +39,16 @@ def create_app():
                 return "Made a user!"
         return "ERROR"
 
+    @app.route("/login", methods=["POST"])
+    def login():
+        if request.method == "POST":
+            data = json.loads(request.data)
+            if DB.session.query(exists().where(User.username==data["username"])).scalar():
+                db_user = User.query.filter(User.screen_name == data["username"]).one()
+                if db_user.password == data["password"]
+                return "Logged in as {}!".format(db_user.username)
+        return "Could not login..."
+
 
     @app.route("/app_login_user_name", methods=["POST"])
     def app_login_user_name():

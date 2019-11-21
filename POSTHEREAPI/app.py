@@ -4,11 +4,13 @@ from praw import Reddit
 from urllib.parse import quote_plus
 from urllib.request import urlopen
 from .db_model import DB, User
-from sqlalchemy import exists
+from sqlalchemy import exists, _and
 import json
 import pickle
 import requests
 import os
+import string
+import random
 
 
 def create_app():
@@ -22,6 +24,8 @@ def create_app():
     print(config("DATABASE_URL"))
 
     DB.init_app(app)
+    with app.app_context():
+        DB.create_all()
 
     @app.route("/reset")
     def reset():
@@ -48,19 +52,22 @@ def create_app():
                 return "User already exists!"
             else:
                 db_user = User(username=data["username"], password=data["password"])
+                db_user.session_key = "".join(random.sample(string.ascii_letters, 32))
                 DB.session.add(db_user)
                 DB.session.commit()
-                return "Made a user!"
+                return db_user.session_key
         return "ERROR"
 
     @app.route("/login", methods=["POST"])
     def login():
         if request.method == "POST":
-            data = json.loads(request.data)
-            if DB.session.query(exists().where(User.username==data["username"])).scalar():
-                db_user = User.query.filter(User.username == data["username"]).one()
-                if db_user.password == data["password"]:
-                    return "Logged in as {}!".format(db_user.username)
+            try:
+                data = json.loads(request.data)
+                db_user = User.query.filter(and_(User.username == post_username, User.password == data["password"])).one()
+                db_user.session_key = "".join(random.sample(string.ascii_letters, 32))
+                DB.session.commit()
+                return db_user.session_key
+            except Exception as e:
         return "Could not login..."
 
     @app.route("/predict", methods=["POST"])

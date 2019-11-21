@@ -67,7 +67,7 @@ def create_app():
         return "Could not login..."
 
     @app.route("/predict", methods=["POST"])
-    def login():
+    def predict():
         if request.method == "POST":
             data = json.loads(request.data)
             pred = model.predict(data["article"])[0]

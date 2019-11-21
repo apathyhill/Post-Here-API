@@ -112,7 +112,7 @@ def create_app():
         return "ERROR"   
 
     @app.route("/delete_prediction", methods=["POST"]) 
-    def add_prediction():
+    def delete_prediction():
         if request.method == "POST":
             post_article = request.values["article"]
             post_subreddit = request.values["subreddit"]
@@ -121,7 +121,7 @@ def create_app():
                 db_post = Post(author=user.username, subreddit=post_subreddit, article=post_article)
                 DB.session.delete(db_post)
                 DB.session.commit()
-                return "Delete!"
+                return "Deleted!"
             else:
                 return "Not logged in!"
         return "ERROR"    

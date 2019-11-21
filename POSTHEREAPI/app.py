@@ -14,13 +14,9 @@ import os
 def create_app():
     app = Flask(__name__)
 
-    """pickle_text = b""
-    for file in os.listdir("pickle"):
-        with open("pickle/"+file, "rb") as f:
-            pickle_text += f.read()
-
-    model = pickle.loads(pickle_text)
-    del pickle_text"""
+    f = open("nlp_model.pkl", "rb")
+    model = pickle.load(f)
+    f.close()
 
     app.config["SQLALCHEMY_DATABASE_URI"] = config("DATABASE_URL")
     print(config("DATABASE_URL"))

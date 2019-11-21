@@ -45,7 +45,7 @@ def create_app():
             post_subreddit = quote_plus(data["subreddit"])
             user = get_current_user(request.headers["authorization"])
             if user:
-                new_url = "https://www.reddit.com/r/{}/submit?title={}".format(post_title, post_subreddit)
+                new_url = "https://www.reddit.com/r/{}/submit?title={}".format(post_subreddit, post_title)
                 print(new_url)
                 return redirect(new_url)
             else:

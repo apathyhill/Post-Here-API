@@ -4,7 +4,7 @@ from praw import Reddit
 from urllib.parse import quote_plus
 from urllib.request import urlopen
 from .db_model import DB, User
-from sqlalchemy import exists, _and
+from sqlalchemy import exists, and_
 import json
 import pickle
 import requests

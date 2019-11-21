@@ -41,12 +41,11 @@ def create_app():
     def post_to_reddit():
         if request.method == "POST":
             data = json.loads(request.data) # {"article": "", "title": "", "subreddit": ""}
+            post_title = quote_plus(data["article"])
+            post_subreddit = quote_plus(data["subreddit"])
             user = get_current_user(request.headers["authorization"])
             if user:
-                pred = model.predict([data["article"]])[0]
-                new_url = "https://www.reddit.com/r/{}/submit?text={}&title={}".format(data["subreddit"], 
-                                                                                         quote_plus(data["article"]), 
-                                                                                      quote_plus(data["title"]))
+                new_url = "https://www.reddit.com/r/{}/submit?title={}".format(post_title, post_subreddit)
                 print(new_url)
                 return redirect(new_url)
             else:

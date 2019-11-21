@@ -68,6 +68,7 @@ def create_app():
                 DB.session.commit()
                 return db_user.session_key
             except Exception as e:
+                pass
         return "Could not login..."
 
     @app.route("/predict", methods=["POST"])

@@ -7,6 +7,7 @@ from .db_model import DB, User
 from sqlalchemy import exists
 import json
 import pickle
+import requests
 
 
 def create_app():

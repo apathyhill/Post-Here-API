@@ -96,9 +96,9 @@ def create_app():
                 return "Not logged in!"
         return "ERROR"    
 
-    @app.route("/add_prediction", methods=["POST"])
+    @app.route("/add_prediction", methods=["PUT"])
     def add_prediction():
-        if request.method == "POST":
+        if request.method == "PUT":
             post_article = request.values["article"]
             post_subreddit = request.values["subreddit"]
             user = get_current_user(request.headers["authorization"])

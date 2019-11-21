@@ -107,7 +107,7 @@ def create_app():
                 db_post = Post(post_id=random.randint(0, 10000000), author=user.username, subreddit=post_subreddit, article=post_article)
                 DB.session.add(db_post)
                 DB.session.commit()
-                return db_post.post_id
+                return str(db_post.post_id)
             else:
                 return "Not logged in!"
         return "ERROR"   

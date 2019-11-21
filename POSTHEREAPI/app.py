@@ -75,6 +75,7 @@ def create_app():
                 data = json.loads(request.data)
                 db_user = User.query.filter(and_(User.username == data["username"], User.password == data["password"])).one()
                 db_user.session_key = "".join(random.sample(string.ascii_letters, 32))
+                print(db_user.session_key)
                 DB.session.commit()
                 return db_user.session_key
             except Exception as e:

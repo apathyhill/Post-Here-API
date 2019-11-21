@@ -53,8 +53,8 @@ def create_app():
                 db_user.session_key = "".join(random.sample(string.ascii_letters, 32))
                 DB.session.add(db_user)
                 DB.session.commit()
-                return db_user.session_key
-        return "ERROR"
+                return {"session_key": db_user.session_key }
+        return {}
 
     @app.route("/login", methods=["POST"])
     def login():

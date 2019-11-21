@@ -101,14 +101,12 @@ def create_app():
         if request.method == "POST":
             post_article = request.values["article"]
             post_subreddit = request.values["subreddit"]
-            post_author = request.values["username"]
             user = get_current_user(request.headers["authorization"])
             if user:
-                if post_author == user.username:
-                    db_post = Post(author=user.username, subreddit, subreddit=post_subreddit, article=post_article)
-                    DB.session.add(db_post)
-                    DB.session.commit()
-                    return "Added!"
+                db_post = Post(author=user.username, subreddit, subreddit=post_subreddit, article=post_article)
+                DB.session.add(db_post)
+                DB.session.commit()
+                return "Added!"
             else:
                 return "Not logged in!"
         return "ERROR"    

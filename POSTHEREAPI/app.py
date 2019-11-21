@@ -13,13 +13,14 @@ import os
 
 def create_app():
     app = Flask(__name__)
-
-    pickle_url = "https://github.com/apathyhill/Post-Here-API/blob/heroku/pickle/model-{:02d}.pkl?raw=true"
+    
     pickle_text = b""
-    print(os.listdir("."))
+    for file in os.listdir("pickle"):
+        with open("\\pickle\\"+file, "rb") as f:
+            pickle_text += f.read()
 
+    model = pickle.loads(pickle_text)
     del pickle_text
-    del pickle_url
 
     app.config["SQLALCHEMY_DATABASE_URI"] = config("DATABASE_URL")
     print(config("DATABASE_URL"))

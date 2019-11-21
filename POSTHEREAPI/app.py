@@ -128,8 +128,8 @@ def create_app():
                 return "Not logged in!"
         return "ERROR"   
 
-    @app.route("/update_predict", methods=["PUT"])
-    def add_prediction():
+    @app.route("/update_prediction", methods=["PUT"])
+    def update_prediction():
         if request.method == "PUT":
             data = json.loads(request.data)
             post_article = data["article"]

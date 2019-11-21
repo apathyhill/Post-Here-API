@@ -152,7 +152,7 @@ def create_app():
             user = get_current_user(request.headers.get("authorization"))
             if user:
                 db_posts = Post.query.filter(Post.author == user.username).all()
-                return [{"post_id": db_p.post_id, "subreddit": db_p.subreddit, "article": db_p.article } for db_p in db_posts]
+                return {"posts": [{"post_id": db_p.post_id, "subreddit": db_p.subreddit, "article": db_p.article } for db_p in db_posts]}
         return []
 
 

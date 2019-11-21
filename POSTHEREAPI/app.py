@@ -25,6 +25,11 @@ def create_app():
 
     DB.init_app(app)
 
+    def get_current_user(session_key):
+        if DB.session.query(exists().where(User.session_key==session_key)).scalar():
+            return User.query.filter(User.session_key == session_key).one()
+        return None
+
     @app.route("/reset")
     def reset():
         DB.drop_all()
@@ -36,11 +41,16 @@ def create_app():
     def post_to_reddit():
         if request.method == "POST":
             data = json.loads(request.data) # {"article": "", "title": "", "subreddit": ""}
-            new_url = "https://www.reddit.com/r/{}/submit?text={}&title={}".format(data["subreddit"], 
+            user = get_current_user(data["session_key"])
+            if user:
+                pred = model.predict([data["article"]])[0]
+                new_url = "https://www.reddit.com/r/{}/submit?text={}&title={}".format(data["subreddit"], 
                                                                                          quote_plus(data["article"]), 
                                                                                       quote_plus(data["title"]))
-            print(new_url)
-            return redirect(new_url)
+                print(new_url)
+                return redirect(new_url)
+            else:
+                return "Not logged in!"
 
     @app.route("/register", methods=["POST"])
     def register():
@@ -74,11 +84,16 @@ def create_app():
     @app.route("/predict", methods=["POST"])
     def predict():
         if request.method == "POST":
+
             data = json.loads(request.data)
             print(data)
-            pred = model.predict([data["article"]])[0]
-            print(pred)
-            return {"prediction": pred}
+            user = get_current_user(data["session_key"])
+            if user:
+                pred = model.predict([data["article"]])[0]
+                print(pred)
+                return {"prediction": pred}
+            else:
+                return "Not logged in!"
         return "ERROR"
 
         

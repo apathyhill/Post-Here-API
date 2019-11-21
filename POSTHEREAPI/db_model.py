@@ -12,4 +12,6 @@ class User(DB.Model):
 class Post(DB.Model):
     article = DB.Column(DB.Text(), nullable=False)
     subreddit = DB.Column(DB.Text(), nullable=False)
-    author = DB.Column(DB.Text(), primary_key=True)
+    author = DB.Column(DB.Text(), nullable=False)
+    post_id = DB.Column(DB.Integer(), primary_key=True)
+

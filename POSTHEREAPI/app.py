@@ -104,10 +104,10 @@ def create_app():
             post_subreddit = data["subreddit"]
             user = get_current_user(request.headers.get("authorization"))
             if user:
-                db_post = Post(author=user.username, subreddit=post_subreddit, article=post_article)
+                db_post = Post(post_id=random.randint(0, 10000000), author=user.username, subreddit=post_subreddit, article=post_article)
                 DB.session.add(db_post)
                 DB.session.commit()
-                return "Added!"
+                return db_post.post_id
             else:
                 return "Not logged in!"
         return "ERROR"   
@@ -116,13 +116,11 @@ def create_app():
     def delete_prediction():
         if request.method == "DELETE":
             data = json.loads(request.data)
-            post_article = data["article"]
-            post_subreddit = data["subreddit"]
+            post_id = data["post_id"]
             user = get_current_user(request.headers.get("authorization"))
             if user:
-                db_post = Post.query.filter(and_(Post.author == user.name,
-                                                 Post.article == post_article,
-                                                 Post.subreddit == post_subreddit)).one()
+                db_post = Post.query.filter(and_(Post.author == user.username,
+                                                 Post.post_id == post_id)).one()
                 DB.session.delete(db_post)
                 DB.session.commit()
                 return "Deleted!"

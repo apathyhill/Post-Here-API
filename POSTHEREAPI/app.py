@@ -103,7 +103,7 @@ def create_app():
             post_subreddit = request.values["subreddit"]
             user = get_current_user(request.headers["authorization"])
             if user:
-                db_post = Post(author=user.username, subreddit, subreddit=post_subreddit, article=post_article)
+                db_post = Post(author=user.username, subreddit=post_subreddit, article=post_article)
                 DB.session.add(db_post)
                 DB.session.commit()
                 return "Added!"

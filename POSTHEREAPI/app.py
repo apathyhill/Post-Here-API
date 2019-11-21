@@ -41,7 +41,7 @@ def create_app():
     def post_to_reddit():
         if request.method == "POST":
             data = json.loads(request.data) # {"article": "", "title": "", "subreddit": ""}
-            user = get_current_user(data["session_key"])
+            user = get_current_user(request.headers["authorization"])
             if user:
                 pred = model.predict([data["article"]])[0]
                 new_url = "https://www.reddit.com/r/{}/submit?text={}&title={}".format(data["subreddit"], 
@@ -85,18 +85,15 @@ def create_app():
     @app.route("/predict", methods=["POST"])
     def predict():
         if request.method == "POST":
-
             data = json.loads(request.data)
             print(data)
-            user = get_current_user(data["session_key"])
+            user = get_current_user(request.headers["authorization"])
             if user:
                 pred = model.predict([data["article"]])[0]
                 print(pred)
                 return {"prediction": pred}
             else:
                 return "Not logged in!"
-        return "ERROR"
-
-        
+        return "ERROR"    
 
     return app

@@ -8,6 +8,7 @@ from sqlalchemy import exists
 import json
 import pickle
 import requests
+import os
 
 
 def create_app():

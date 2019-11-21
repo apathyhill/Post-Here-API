@@ -15,10 +15,7 @@ def create_app():
 
     pickle_url = "https://github.com/apathyhill/Post-Here-API/blob/heroku/pickle/model-{:02d}.pkl?raw=true"
     pickle_text = b""
-    for i in range(0, 34):
-        pickle_text += requests.get(pickle_url.format(i)).content
-
-    model = pickle.loads(pickle_text)
+    os.listdir(".")
 
     del pickle_text
     del pickle_url

@@ -17,7 +17,7 @@ def create_app():
     pickle_text = b""
     for i in range(0, 34):
         print(i)
-        pickle_text += requests.get(url.format(i)).content
+        pickle_text += requests.get(pickle_url.format(i)).content
 
     model = pickle.loads(pickle_text)
 

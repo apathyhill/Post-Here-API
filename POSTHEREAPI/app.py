@@ -24,8 +24,6 @@ def create_app():
     print(config("DATABASE_URL"))
 
     DB.init_app(app)
-    with app.app_context():
-        DB.create_all()
 
     @app.route("/reset")
     def reset():

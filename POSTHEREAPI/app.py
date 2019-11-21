@@ -13,10 +13,10 @@ import os
 
 def create_app():
     app = Flask(__name__)
-    
+
     pickle_text = b""
     for file in os.listdir("pickle"):
-        with open("\\pickle\\"+file, "rb") as f:
+        with open("pickle\\"+file, "rb") as f:
             pickle_text += f.read()
 
     model = pickle.loads(pickle_text)

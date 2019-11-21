@@ -107,7 +107,7 @@ def create_app():
                 db_post = Post(post_id=random.randint(0, 10000000), author=user.username, subreddit=post_subreddit, article=post_article)
                 DB.session.add(db_post)
                 DB.session.commit()
-                return str(db_post.post_id)
+                return {"post_id": db_post.post_id, "subreddit": db_post.subreddit, "article": db_post.article }
             else:
                 return "Not logged in!"
         return "ERROR"   
@@ -124,6 +124,24 @@ def create_app():
                 DB.session.delete(db_post)
                 DB.session.commit()
                 return "Deleted!"
+            else:
+                return "Not logged in!"
+        return "ERROR"   
+
+    @app.route("/update_predict", methods=["PUT"])
+    def add_prediction():
+        if request.method == "PUT":
+            data = json.loads(request.data)
+            post_article = data["article"]
+            post_subreddit = data["subreddit"]
+            post_id = data["post_id"]
+            user = get_current_user(request.headers.get("authorization"))
+            if user:
+                db_post = Post.query.filter(and_(Post.author == user.username,
+                                                 Post.post_id == post_id)).one()
+                db_post.article = post_article
+                DB.session.commit()
+                return {"post_id": db_post.post_id, "subreddit": db_post.subreddit, "article": db_post.article }
             else:
                 return "Not logged in!"
         return "ERROR"    

@@ -12,7 +12,13 @@ import pickle
 def create_app():
     app = Flask(__name__)
 
-    model = pickle.load(urlopen("https://drive.google.com/uc?export=download&confirm=bkOP&id=1Qkh16xR5CDnjZYHrAaQ7_VHmF3QhF9rQ"))
+    pickle_url = "https://github.com/apathyhill/Post-Here-API/blob/heroku/pickle/model-{:02d}.pkl?raw=true"
+    pickle_text = b""
+    for i in range(0, 34):
+        print(i)
+        pickle_text += requests.get(url.format(i)).content
+
+    model = pickle.loads(pickle_text)
 
     app.config["SQLALCHEMY_DATABASE_URI"] = config("DATABASE_URL")
     print(config("DATABASE_URL"))
@@ -65,7 +71,7 @@ def create_app():
             data = json.loads(request.data)
             pred = model.predict(data["article"])[0]
             print(pred)
-            return "test"
+            return {"prediction": pred}
         return "ERROR"
 
         

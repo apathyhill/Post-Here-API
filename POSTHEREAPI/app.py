@@ -115,8 +115,9 @@ def create_app():
     @app.route("/delete_prediction", methods=["DELETE"]) 
     def delete_prediction():
         if request.method == "DELETE":
-            post_article = request.values["article"]
-            post_subreddit = request.values["subreddit"]
+            data = json.loads(request.data)
+            post_article = data["article"]
+            post_subreddit = data["subreddit"]
             user = get_current_user(request.headers.get("authorization"))
             if user:
                 db_post = Post.query.filter(and_(Post.author == user.name,

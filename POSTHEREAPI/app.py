@@ -16,7 +16,7 @@ def create_app():
 
     pickle_url = "https://github.com/apathyhill/Post-Here-API/blob/heroku/pickle/model-{:02d}.pkl?raw=true"
     pickle_text = b""
-    os.listdir(".")
+    print(os.listdir("."))
 
     del pickle_text
     del pickle_url

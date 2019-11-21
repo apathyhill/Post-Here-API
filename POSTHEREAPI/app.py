@@ -112,14 +112,16 @@ def create_app():
                 return "Not logged in!"
         return "ERROR"   
 
-    @app.route("/delete_prediction", methods=["POST"]) 
+    @app.route("/delete_prediction", methods=["DELETE"]) 
     def delete_prediction():
-        if request.method == "POST":
+        if request.method == "DELETE":
             post_article = request.values["article"]
             post_subreddit = request.values["subreddit"]
-            user = get_current_user(request.headers["authorization"])
+            user = get_current_user(request.headers.get("authorization"))
             if user:
-                db_post = Post(author=user.username, subreddit=post_subreddit, article=post_article)
+                db_post = Post.query.filter(and_(Post.author == user.name,
+                                                 Post.article == post_article,
+                                                 Post.subreddit == post_subreddit)).one()
                 DB.session.delete(db_post)
                 DB.session.commit()
                 return "Deleted!"

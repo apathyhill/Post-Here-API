@@ -67,8 +67,8 @@ def create_app():
     def predict():
         if request.method == "POST":
             data = json.loads(request.data)
-            #pred = model.predict(data["article"])[0]
-            pred = "cats"
+            print(data)
+            pred = model.predict(data["article"])[0]
             print(pred)
             return {"prediction": pred}
         return "ERROR"

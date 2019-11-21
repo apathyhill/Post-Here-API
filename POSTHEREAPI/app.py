@@ -87,7 +87,7 @@ def create_app():
         if request.method == "POST":
             data = json.loads(request.data)
             print(data)
-            user = get_current_user(request.headers["authorization"])
+            user = get_current_user(request.headers.get("authorization"))
             if user:
                 pred = model.predict([data["article"]])[0]
                 print(pred)
@@ -102,7 +102,7 @@ def create_app():
             data = json.loads(request.data)
             post_article = data["article"]
             post_subreddit = data["subreddit"]
-            user = get_current_user(request.headers["authorization"])
+            user = get_current_user(request.headers.get("authorization"))
             if user:
                 db_post = Post(author=user.username, subreddit=post_subreddit, article=post_article)
                 DB.session.add(db_post)

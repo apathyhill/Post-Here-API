@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, redirect
 from praw import Reddit
 from urllib.parse import quote_plus
 from urllib.request import urlopen
-from .db_model import DB, User
+from .db_model import DB, User, Post
 from sqlalchemy import exists, and_
 import json
 import pickle

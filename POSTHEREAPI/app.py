@@ -46,6 +46,7 @@ def create_app():
     def register():
         if request.method == "POST":
             data = json.loads(request.data)
+            print(data)
             if DB.session.query(exists().where(User.username==data["username"])).scalar():
                 return "User already exists!"
             else:
@@ -53,6 +54,7 @@ def create_app():
                 db_user.session_key = "".join(random.sample(string.ascii_letters, 32))
                 DB.session.add(db_user)
                 DB.session.commit()
+                print(db_user.session_key)
                 return {"session_key": db_user.session_key }
         return {}
 

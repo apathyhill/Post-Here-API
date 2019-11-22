@@ -107,7 +107,7 @@ def create_app():
                 for p in db_post:
                     p.saved=1
                 DB.session.commit()
-                return {"post_id": db_post.post_id, "subreddit": db_post.subreddit, "article": db_post.article }
+                return [{"post_id": p.post_id} for p in db_post]
             else:
                 return "Not logged in!"
         return "ERROR"   

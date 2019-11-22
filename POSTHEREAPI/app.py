@@ -89,7 +89,7 @@ def create_app():
             user = get_current_user(request.headers.get("authorization"))
             if user:
                 pred = model.predict([data["post"]])[0]
-                db_post = Post(post_id=random.randint(0, 10000000), author=user.username, saved=0, subreddit=post_subreddit, article=post_article)
+                db_post = Post(post_id=random.randint(0, 10000000), author=user.username, saved=0, subreddit=pred, article=data["post"])
                 DB.session.add(db_post)
                 DB.session.commit()
                 print(pred)

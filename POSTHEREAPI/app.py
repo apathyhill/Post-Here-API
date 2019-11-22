@@ -103,7 +103,7 @@ def create_app():
         if request.method == "POST":
             user = get_current_user(request.headers.get("authorization"))
             if user:
-                db_post = DB.session.query(User==user and saved==0).one()
+                db_post = DB.session.query(User==user and saved==0).all()
                 for p in db_post:
                     p.saved=1
                 DB.session.commit()

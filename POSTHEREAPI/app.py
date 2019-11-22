@@ -153,7 +153,7 @@ def create_app():
             if user:
                 db_posts = Post.query.filter(and_(Post.author == user.username, Post.saved==1)).all()
                 return {"posts": [{"post_id": db_p.post_id, "subreddit": db_p.subreddit, "article": db_p.article } for db_p in db_posts]}
-        return []
+        return {"posts":[]}
 
 
 

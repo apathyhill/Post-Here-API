@@ -88,9 +88,9 @@ def create_app():
             print(data)
             user = get_current_user(request.headers.get("authorization"))
             if user:
-                pred = model.predict([data["article"]])[0]
+                pred = model.predict([data["post"]])[0]
                 print(pred)
-                return {"prediction": pred}
+                return {"article": data["post"], "prediction": pred}
             else:
                 return "Not logged in!"
         return "ERROR"    

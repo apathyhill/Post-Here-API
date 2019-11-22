@@ -89,8 +89,11 @@ def create_app():
             user = get_current_user(request.headers.get("authorization"))
             if user:
                 pred = model.predict([data["post"]])[0]
+                db_post = Post(post_id=random.randint(0, 10000000), author=user.username, saved=0, subreddit=post_subreddit, article=post_article)
+                DB.session.add(db_post)
+                DB.session.commit()
                 print(pred)
-                return {"article": data["post"], "prediction": pred}
+                return {"article": data["post"], "subreddit": pred}
             else:
                 return "Not logged in!"
         return "ERROR"    
@@ -103,8 +106,9 @@ def create_app():
             post_subreddit = data["subreddit"]
             user = get_current_user(request.headers.get("authorization"))
             if user:
-                db_post = Post(post_id=random.randint(0, 10000000), author=user.username, subreddit=post_subreddit, article=post_article)
-                DB.session.add(db_post)
+                db_post = DB.session.query(User==user and saved==0).one()
+                for p in db_post:
+                    p.saved=1
                 DB.session.commit()
                 return {"post_id": db_post.post_id, "subreddit": db_post.subreddit, "article": db_post.article }
             else:
@@ -150,7 +154,7 @@ def create_app():
         if request.method == "GET":
             user = get_current_user(request.headers.get("authorization"))
             if user:
-                db_posts = Post.query.filter(Post.author == user.username).all()
+                db_posts = Post.query.filter(Post.author == user.username and Post.saved==1).all()
                 return {"posts": [{"post_id": db_p.post_id, "subreddit": db_p.subreddit, "article": db_p.article } for db_p in db_posts]}
         return []
 

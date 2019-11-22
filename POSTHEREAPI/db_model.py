@@ -14,4 +14,5 @@ class Post(DB.Model):
     subreddit = DB.Column(DB.Text(), nullable=False)
     author = DB.Column(DB.Text(), nullable=False)
     post_id = DB.Column(DB.Integer(), primary_key=True)
+    saved = DB.Column(DB.Integer(), nullable=False)
 

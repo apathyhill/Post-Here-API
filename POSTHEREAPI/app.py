@@ -88,12 +88,12 @@ def create_app():
             print(data)
             user = get_current_user(request.headers.get("authorization"))
             if user:
-                pred = model.predict([data["article"]])[0]
-                db_post = Post(post_id=random.randint(0, 10000000), author=user.username, saved=0, subreddit=pred, article=data["article"])
+                pred = model.predict([data["post"]])[0]
+                db_post = Post(post_id=random.randint(0, 10000000), author=user.username, saved=0, subreddit=pred, article=data["post"])
                 DB.session.add(db_post)
                 DB.session.commit()
                 print(pred)
-                return {"article": data["article"], "subreddit": pred}
+                return {"article": data["post"], "subreddit": pred}
             else:
                 return "Not logged in!"
         return "ERROR"    

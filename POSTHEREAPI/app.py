@@ -101,9 +101,6 @@ def create_app():
     @app.route("/add_prediction", methods=["POST"])
     def add_prediction():
         if request.method == "POST":
-            data = json.loads(request.data)
-            post_article = data["article"]
-            post_subreddit = data["subreddit"]
             user = get_current_user(request.headers.get("authorization"))
             if user:
                 db_post = DB.session.query(User==user and saved==0).one()
